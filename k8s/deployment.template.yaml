@@ -1,0 +1,51 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: gateway-service
+  labels:
+    app: gateway-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+      - name: gateway-service
+        image: localhost:5000/skaioskit/gateway-service:latest
+        imagePullPolicy: Always
+        command: 
+        - /gateway
+        - serve
+        ports:
+        - containerPort: 80
+        env:
+        - name: BUILD_DATETIME
+          value: "{{BUILD_TIME}}"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway-service
+spec:
+  selector:
+    app: gateway-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway-service-lb
+spec:
+  type: NodePort
+  selector:
+    app: gateway-service
+  ports:
+  - port: 80
+    nodePort: 30080
+---

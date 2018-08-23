@@ -1,0 +1,88 @@
+{
+    "Title": "Skaioskit Gateway Service",
+    "Commands": {
+        "_build": {
+            "Requires": [],
+            "Steps": [
+                {
+                    "Type": "RunCommand",
+                    "Args": {
+                        "Command": [
+                            "docker",
+                            "run",
+                            "--rm",
+                            "-v",
+                            "${DIR}/src:/go/src/skaioskit",
+                            "-w",
+                            "/go/src/skaioskit",
+                            "lushdigital/docker-golang-dep",
+                            "ensure"
+                        ]
+                    }
+                },
+                {
+                    "Type": "RunCommand",
+                    "Args": {
+                        "Command": [
+                            "docker",
+                            "run",
+                            "--rm",
+                            "-v",
+                            "${DIR}/src:/go/src/skaioskit",
+                            "-w",
+                            "/go/src/skaioskit",
+                            "golang:latest",
+                            "go",
+                            "build",
+                            "-ldflags",
+                            "-linkmode external -extldflags -static",
+                            "-o",
+                            "gateway"
+                        ]
+                    }
+                }
+            ]
+        },
+
+        "_pack": {
+            "Requires": [],
+            "Steps": [
+                {
+                    "Type": "RunCommand",
+                    "Args": {
+                        "Command": [
+                            "docker",
+                            "build",
+                            "-f",
+                            "./Dockerfile",
+                            "-t",
+                            "localhost:5000/skaioskit/gateway-service",
+                            "."
+                        ]
+                    }
+                }
+            ]
+        },
+
+        "_upload": {
+            "Requires": [],
+            "Steps": [
+                {
+                    "Type": "RunCommand",
+                    "Args": {
+                        "Command": [
+                            "docker",
+                            "push",
+                            "localhost:5000/skaioskit/gateway-service"
+                        ]
+                    }
+                }
+            ]
+        },
+
+        "build": {
+            "Requires": ["_build", "_pack", "_upload"],
+            "Steps": []
+        }
+    }
+}
