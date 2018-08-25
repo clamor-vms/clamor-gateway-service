@@ -83,6 +83,65 @@
         "build": {
             "Requires": ["_build", "_pack", "_upload"],
             "Steps": []
+        },
+        
+        "deploy": {
+            "Requires": ["build"],
+            "Steps": [
+                {
+                    "Type": "DoublePipeCommand",
+                    "Args": {
+                        "Source": [
+                            "cat",
+                            "k8s/deployment.template.yaml"
+                        ],
+                        "Target1": [
+                            "sed",
+                            "-e",
+                            "s/{{BUILD_TIME}}/${DATETIME}/g"
+                        ],
+                        "Target2": [
+                            "tee",
+                            "deployment.yaml"
+                        ]
+                    }
+                },
+                {
+                    "Type": "DoublePipeCommand",
+                    "Args": {
+                        "Source": [
+                            "cat",
+                            "deployment.yaml"
+                        ],
+                        "Target1": [
+                            "envsubst"
+                        ],
+                        "Target2": [
+                            "kubectl",
+                            "apply",
+                            "-f",
+                            "-"
+                        ]
+                    }
+                }
+            ]
+        },
+
+        "stop": {
+            "Requires": [],
+            "Steps": [
+                {
+                    "Type": "RunCommand",
+                    "Args": {
+                        "Command": [
+                            "kubectl",
+                            "delete",
+                            "deployments,services,pods,pv,pvc,cronjob,job",
+                            "--all"
+                        ]
+                    }
+                }
+            ]
         }
     }
 }

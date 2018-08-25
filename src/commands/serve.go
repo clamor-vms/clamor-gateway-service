@@ -26,6 +26,8 @@ import (
     "github.com/gorilla/mux"
 
     skaioskit "github.com/nathanmentley/skaioskit-go-core"
+
+    "skaioskit/controllers"
 )
 
 func writeProxyResponse(w http.ResponseWriter, resp *http.Response, err error) {
@@ -99,11 +101,15 @@ var serveCmd = &cobra.Command{
     Run: func(cmd *cobra.Command, args []string) {
         r := mux.NewRouter()
 
+        //setup controllers
+        aboutController := skaioskit.NewControllerProcessor(controllers.NewAboutController())
+
         //setup all proxies to other services
         r.HandleFunc("/auth/{rest:.*}", redirectAuth)
         r.HandleFunc("/operation/{rest:.*}", redirectOperation)
         r.HandleFunc("/task/{rest:.*}", redirectTask)
         r.HandleFunc("/user/{rest:.*}", redirectUser)
+        r.HandleFunc("/about", aboutController.Logic)
         
         //setup 404 override
         r.HandleFunc("/", sayFourOhFour)

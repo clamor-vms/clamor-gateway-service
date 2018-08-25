@@ -27,25 +27,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: gateway-service
-spec:
-  selector:
-    app: gateway-service
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-  type: NodePort
----
-kind: Service
-apiVersion: v1
-metadata:
   name: gateway-service-lb
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: gateway-service
   ports:
   - port: 80
-    nodePort: 30080
+    targetPort: 80
 ---
