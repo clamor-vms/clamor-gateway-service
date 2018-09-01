@@ -89,21 +89,16 @@
             "Requires": ["build"],
             "Steps": [
                 {
-                    "Type": "DoublePipeCommand",
+                    "Type": "CopyFile",
                     "Args": {
-                        "Source": [
-                            "cat",
-                            "k8s/deployment.template.yaml"
-                        ],
-                        "Target1": [
-                            "sed",
-                            "-e",
-                            "s/{{BUILD_TIME}}/${DATETIME}/g"
-                        ],
-                        "Target2": [
-                            "tee",
-                            "deployment.yaml"
-                        ]
+                        "Source": "k8s/deployment.template.yaml",
+                        "Target": "deployment.yaml"
+                    }
+                },
+                {
+                    "Type": "RunTemplate",
+                    "Args": {
+                        "File": "deployment.yaml"
                     }
                 },
                 {

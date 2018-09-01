@@ -22,12 +22,12 @@ import (
     "net/url"
 
     "github.com/spf13/cobra"
-    "github.com/spf13/viper"
     "github.com/gorilla/mux"
 
     skaioskit "github.com/nathanmentley/skaioskit-go-core"
 
     "skaioskit/controllers"
+    "skaioskit/core"
 )
 
 func writeProxyResponse(w http.ResponseWriter, resp *http.Response, err error) {
@@ -81,6 +81,11 @@ func redirectUser(w http.ResponseWriter, r *http.Request) {
     proxyRequest("user-service", "user", w, r)
 }
 
+//TODO: For testing only while in dev. I don't think this will be part of the accessable api.
+func redirectVoter(w http.ResponseWriter, r *http.Request) {
+    proxyRequest("voter-service", "voter", w, r)
+}
+
 func sayFourOhFour(w http.ResponseWriter, r *http.Request) {
     http.Error(w, "404", 404)
 }
@@ -109,6 +114,11 @@ var serveCmd = &cobra.Command{
         r.HandleFunc("/operation/{rest:.*}", redirectOperation)
         r.HandleFunc("/task/{rest:.*}", redirectTask)
         r.HandleFunc("/user/{rest:.*}", redirectUser)
+        
+        //TODO: For testing only while in dev. I don't think this will be part of the accessable api.
+        r.HandleFunc("/voter/{rest:.*}", redirectVoter)
+        
+
         r.HandleFunc("/about", aboutController.Logic)
         
         //setup 404 override
@@ -119,7 +129,7 @@ var serveCmd = &cobra.Command{
 
 
         //server up app
-        if err := http.ListenAndServe(":" + viper.GetString("port-number"), nil); err != nil {
+        if err := http.ListenAndServe(":" + core.PORT_NUMBER, nil); err != nil {
             panic(err)
         }
     },

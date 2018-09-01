@@ -20,7 +20,6 @@ import (
     "os"
 
     "github.com/spf13/cobra"
-    "github.com/spf13/viper"
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -49,14 +48,4 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-    viper.SetConfigType("yaml")
-    viper.AddConfigPath("/etc/skaioskit/")
-    viper.SetConfigName("config")
-
-    // If a config file is found, read it in.
-    if err := viper.ReadInConfig(); err == nil {
-        fmt.Println("Using config file:", viper.ConfigFileUsed())
-    } else {
-        fmt.Println(err.Error())
-    }
 }

@@ -22,7 +22,7 @@ spec:
         - containerPort: 80
         env:
         - name: BUILD_DATETIME
-          value: "{{BUILD_TIME}}"
+          value: "${DATETIME}"
 ---
 kind: Service
 apiVersion: v1
