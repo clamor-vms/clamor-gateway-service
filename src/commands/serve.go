@@ -69,7 +69,7 @@ func redirectAuth(w http.ResponseWriter, r *http.Request) {
     proxyRequest("auth-service", "auth", w, r)
 }
 
-func redirectOperation(w http.ResponseWriter, r *http.Request) {
+func redirectCampaign(w http.ResponseWriter, r *http.Request) {
     proxyRequest("campaign-service", "campaign", w, r)
 }
 
@@ -111,7 +111,7 @@ var serveCmd = &cobra.Command{
 
         //setup all proxies to other services
         r.HandleFunc("/auth/{rest:.*}", redirectAuth)
-        r.HandleFunc("/campaign/{rest:.*}", redirectOperation)
+        r.HandleFunc("/campaign/{rest:.*}", redirectCampaign)
         r.HandleFunc("/task/{rest:.*}", redirectTask)
         r.HandleFunc("/user/{rest:.*}", redirectUser)
         
