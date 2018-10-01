@@ -44,6 +44,7 @@ func writeProxyResponse(w http.ResponseWriter, resp *http.Response, err error) {
         return
     }
 
+    w.WriteHeader(resp.StatusCode)
     w.Write([]byte(string(body)))
 }
 
