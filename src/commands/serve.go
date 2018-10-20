@@ -24,10 +24,10 @@ import (
     "github.com/spf13/cobra"
     "github.com/gorilla/mux"
 
-    skaioskit "github.com/nathanmentley/skaioskit-go-core"
+    clamor "github.com/clamor-vms/clamor-go-core"
 
-    "skaioskit/controllers"
-    "skaioskit/core"
+    "clamor/controllers"
+    "clamor/core"
 )
 
 func writeProxyResponse(w http.ResponseWriter, resp *http.Response, err error) {
@@ -108,7 +108,7 @@ var serveCmd = &cobra.Command{
         r := mux.NewRouter()
 
         //setup controllers
-        aboutController := skaioskit.NewControllerProcessor(controllers.NewAboutController())
+        aboutController := clamor.NewControllerProcessor(controllers.NewAboutController())
 
         //setup all proxies to other services
         r.HandleFunc("/auth/{rest:.*}", redirectAuth)
@@ -126,7 +126,7 @@ var serveCmd = &cobra.Command{
         r.HandleFunc("/", sayFourOhFour)
 
         //wrap all of our middlewares
-        http.Handle("/", skaioskit.PanicHandler(LowerCaseURI(r)))
+        http.Handle("/", clamor.PanicHandler(LowerCaseURI(r)))
 
 
         //server up app

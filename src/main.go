@@ -15,7 +15,7 @@
 
 package main
 
-import "skaioskit/commands"
+import "clamor/commands"
 
 //Lets enter into the cobra cli stuff.
 func main() {

@@ -1,1 +1,1 @@
-# skaioskit-gateway-service
+# clamor-gateway-service

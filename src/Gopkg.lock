@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/clamor-vms/clamor-go-core"
+  packages = ["."]
+  revision = "fecb2731c71a930340469028892a705698f4138a"
+
+[[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
@@ -38,12 +44,6 @@
   revision = "04140366298a54a039076d798123ffa108fff46c"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/nathanmentley/skaioskit-go-core"
-  packages = ["."]
-  revision = "bc50b2b06f90d969a205caa44098d70a840ee932"
-
-[[projects]]
   name = "github.com/spf13/cobra"
   packages = ["."]
   revision = "ef82de70bb3f60c65fb8eebacbb2d122ef517385"
@@ -52,12 +52,12 @@
 [[projects]]
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "9a97c102cda95a86cec2345a6f09f55a939babf5"
-  version = "v1.0.2"
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "27401cd0a00b0021a489e7a112b2ccec5bfd9a6c6cccf98907cb297348eee190"
+  inputs-digest = "daa8ea029be0249d4bca9e5bc8a65d0593477f9538f4af5ee1c1d474ee87a314"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -1,5 +1,5 @@
 {
-    "Title": "Skaioskit Gateway Service",
+    "Title": "Clamor Gateway Service",
     "Commands": {
         "_build": {
             "Requires": [],
@@ -12,9 +12,9 @@
                             "run",
                             "--rm",
                             "-v",
-                            "${DIR}/src:/go/src/skaioskit",
+                            "${DIR}/src:/go/src/clamor",
                             "-w",
-                            "/go/src/skaioskit",
+                            "/go/src/clamor",
                             "lushdigital/docker-golang-dep",
                             "ensure"
                         ]
@@ -28,9 +28,9 @@
                             "run",
                             "--rm",
                             "-v",
-                            "${DIR}/src:/go/src/skaioskit",
+                            "${DIR}/src:/go/src/clamor",
                             "-w",
-                            "/go/src/skaioskit",
+                            "/go/src/clamor",
                             "golang:latest",
                             "go",
                             "build",
@@ -56,7 +56,7 @@
                             "-f",
                             "./Dockerfile",
                             "-t",
-                            "localhost:5000/skaioskit/gateway-service",
+                            "localhost:5000/clamor/gateway-service",
                             "."
                         ]
                     }
@@ -73,7 +73,7 @@
                         "Command": [
                             "docker",
                             "push",
-                            "localhost:5000/skaioskit/gateway-service"
+                            "localhost:5000/clamor/gateway-service"
                         ]
                     }
                 }
