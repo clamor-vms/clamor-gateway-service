@@ -44,6 +44,10 @@ func writeProxyResponse(w http.ResponseWriter, resp *http.Response, err error) {
         return
     }
 
+    for k, _ := range resp.Header {
+        w.Header().Set(k, resp.Header.Get(k))
+    }
+
     w.WriteHeader(resp.StatusCode)
     w.Write([]byte(string(body)))
 }
@@ -125,12 +129,8 @@ var serveCmd = &cobra.Command{
         //setup 404 override
         r.HandleFunc("/", sayFourOhFour)
 
-        //wrap all of our middlewares
-        http.Handle("/", clamor.PanicHandler(LowerCaseURI(r)))
-
-
         //server up app
-        if err := http.ListenAndServe(":" + core.PORT_NUMBER, nil); err != nil {
+        if err := http.ListenAndServe(":" + core.PORT_NUMBER, clamor.PanicHandler(LowerCaseURI(r))); err != nil {
             panic(err)
         }
     },
