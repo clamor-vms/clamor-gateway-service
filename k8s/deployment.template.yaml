@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: gateway-service
-        image: localhost:5000/clamor/gateway-service:latest
+        image: ${DOCKER_REG}/clamor/gateway-service:latest
         imagePullPolicy: Always
         command: 
         - /gateway
