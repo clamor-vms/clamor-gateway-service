@@ -82,11 +82,6 @@
 
         "build": {
             "Requires": ["_build", "_pack", "_upload"],
-            "Steps": []
-        },
-        
-        "deploy": {
-            "Requires": ["build"],
             "Steps": [
                 {
                     "Type": "CopyFile",
@@ -100,7 +95,13 @@
                     "Args": {
                         "File": "deployment.yaml"
                     }
-                },
+                }
+            ]
+        },
+        
+        "deploy": {
+            "Requires": [],
+            "Steps": [
                 {
                     "Type": "DoublePipeCommand",
                     "Args": {
