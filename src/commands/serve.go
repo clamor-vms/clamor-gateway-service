@@ -124,6 +124,7 @@ var serveCmd = &cobra.Command{
         r.HandleFunc("/voter/{rest:.*}", redirectVoter)
         
 
+        //TODO: This should return the static web client?
         r.HandleFunc("/about", aboutController.Logic)
         
         //setup 404 override
