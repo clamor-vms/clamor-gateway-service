@@ -91,6 +91,7 @@ func redirectVoter(w http.ResponseWriter, r *http.Request) {
     proxyRequest("voter-service", "voter", w, r)
 }
 
+//TODO: I think I need to think this through a bit more? should this even be part of this?
 func serveStaticWebApp(w http.ResponseWriter, r *http.Request) {
     proxyRequest("web-client", "", w, r)
 }
@@ -127,9 +128,6 @@ var serveCmd = &cobra.Command{
         //TODO: This should return the static web client?
         r.HandleFunc("/about", aboutController.Logic)
         
-        //setup 404 override
-        r.HandleFunc("/", serveStaticWebApp)
-
         //server up app
         if err := http.ListenAndServe(":" + core.PORT_NUMBER, clamor.PanicHandler(LowerCaseURI(r))); err != nil {
             panic(err)
