@@ -91,8 +91,8 @@ func redirectVoter(w http.ResponseWriter, r *http.Request) {
     proxyRequest("voter-service", "voter", w, r)
 }
 
-func sayFourOhFour(w http.ResponseWriter, r *http.Request) {
-    http.Error(w, "404", 404)
+func serveStaticWebApp(w http.ResponseWriter, r *http.Request) {
+    proxyRequest("web-client", "", w, r)
 }
 
 func LowerCaseURI(h http.Handler) http.Handler {
@@ -128,7 +128,7 @@ var serveCmd = &cobra.Command{
         r.HandleFunc("/about", aboutController.Logic)
         
         //setup 404 override
-        r.HandleFunc("/", sayFourOhFour)
+        r.HandleFunc("/", serveStaticWebApp)
 
         //server up app
         if err := http.ListenAndServe(":" + core.PORT_NUMBER, clamor.PanicHandler(LowerCaseURI(r))); err != nil {
