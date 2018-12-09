@@ -105,6 +105,16 @@ func LowerCaseURI(h http.Handler) http.Handler {
     return http.HandlerFunc(fn)
 }
 
+func AddCorsHeaderToResponse(h http.Handler) http.Handler {
+    fn := func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+        w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+    }
+
+    return http.HandlerFunc(fn)
+}
+
 var serveCmd = &cobra.Command{
     Use:   "serve",
     Short: "runs the rest api",
@@ -129,7 +139,7 @@ var serveCmd = &cobra.Command{
         r.HandleFunc("/about", aboutController.Logic)
         
         //server up app
-        if err := http.ListenAndServe(":" + core.PORT_NUMBER, clamor.PanicHandler(LowerCaseURI(r))); err != nil {
+        if err := http.ListenAndServe(":" + core.PORT_NUMBER, clamor.PanicHandler(AddCorsHeaderToResponse(LowerCaseURI(r)))); err != nil {
             panic(err)
         }
     },
