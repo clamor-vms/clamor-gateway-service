@@ -111,7 +111,15 @@ func AddCorsHeaderToResponse(h http.Handler) http.Handler {
         w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
         w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
         
-        h.ServeHTTP(w, r)
+        switch r.Method {
+            case "OPTIONS":
+                w.WriteHeader(http.StatusOK)
+                w.Write([]byte("{}"))
+                break;
+            default:
+                h.ServeHTTP(w, r)
+                break
+        }
     }
 
     return http.HandlerFunc(fn)
